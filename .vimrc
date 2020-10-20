@@ -12,11 +12,16 @@ set tabstop=2
 set shiftwidth=0
 " 不可視文字を表示する
 set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+"set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 " BSキーで改行やインデントを削除する
 set backspace=indent,eol,start
 " 検索結果をハイライトする
 set hlsearch
+" 開いているファイルのディレクトリに移動する
+"set autochdir
+" ステータスラインを常に表示する
+set laststatus=2
 
 "set fenc=utf-8
 "set nobackup
@@ -29,7 +34,6 @@ set hlsearch
 "set smartindent
 "set visualbell
 "set showmatch
-"set laststatus=2
 "set wildmode=list:longest
 "set autoindent
 "set tabstop=2
