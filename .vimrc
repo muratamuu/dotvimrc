@@ -22,6 +22,8 @@ set hlsearch
 "set autochdir
 " ステータスラインを常に表示する
 set laststatus=2
+" ベルを鳴らさない
+set vb t_vb=
 
 "set fenc=utf-8
 "set nobackup
