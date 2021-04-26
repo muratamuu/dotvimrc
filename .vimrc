@@ -19,7 +19,7 @@ set backspace=indent,eol,start
 " 検索結果をハイライトする
 set hlsearch
 " 開いているファイルのディレクトリに移動する
-"set autochdir
+set autochdir
 " ステータスラインを常に表示する
 set laststatus=2
 " ベルを鳴らさない
@@ -38,7 +38,6 @@ set vb t_vb=
 "set showmatch
 "set wildmode=list:longest
 "set autoindent
-"set tabstop=2
 "set shiftwidth=2
 "colorscheme murphy
 "set softtabstop=0
