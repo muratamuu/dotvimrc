@@ -24,6 +24,17 @@ set autochdir
 set laststatus=2
 " ベルを鳴らさない
 set vb t_vb=
+" swapファイルを元のファイルのディレクトリではなくHOME下に置く
+if !isdirectory(expand("$HOME/.vim/swap"))
+  call mkdir(expand("$HOME/.vim/swap"), "p")
+endif
+set directory=$HOME/.vim/swap//
+" すべてのファイルについて永続アンドゥを有効にする
+set undofile
+if !isdirectory(expand("$HOME/.vim/undodir"))
+  call mkdir(expand("$HOME/.vim/undodir"), "p")
+endif
+set undodir=$HOME/.vim/undodir
 
 "set fenc=utf-8
 "set nobackup
