@@ -36,17 +36,38 @@ if !isdirectory(expand("$HOME/.vim/undodir"))
   call mkdir(expand("$HOME/.vim/undodir"), "p")
 endif
 set undodir=$HOME/.vim/undodir
+
+" 手動で管理するプラグインのインストール方法
+" GitHubでプラグインを見つけ以下の様にインストールする(下記はnerdtreeの例)
+" git clone https://github.com/scrooloose/nerdtree.git ~/.vim/pack/plugins/start/nerdtree
 " プラグイン用のディレクトリを作成する
 if !isdirectory(expand("$HOME/.vim/pack/plugins/start/"))
   call mkdir(expand("$HOME/.vim/pack/plugins/start/"), "p")
 endif
 " すべてのプラグインをロードする
-packloadall
+"packloadall
 " すべてのプラグイン用にヘルプファイルをロードする
-silent! helptags ALL
-" プラグインのインストール方法
-" GitHubでプラグインを見つけ以下の様にインストールする(下記はnerdtreeの例)
-" git clone https://github.com/scrooloose/nerdtree.git ~/.vim/pack/plugins/start/nerdtree
+"silent! helptags ALL
+
+" vim-plugでプラグインを管理する
+" :PlugInstallコマンドでプラグインをインストールしてください
+" :PlugUpdateコマンドですべてのプラグインをアップデートしてください
+" :PlugCleanでvimrcから削除したプラグインをファイルシステムから削除します
+" vim-plugがまだインストールされていなければインストールする
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.github.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin()
+Plug 'junegunn/vim-plug'                               " vim-plugのヘルプを見れるようにする
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " netrwの見た目を良くする
+Plug 'tpope/vim-vinegar'                               " -でnetrwを開く
+Plug 'ctrlpvim/ctrlp.vim'                              " Ctrl+pであいまい検索
+Plug 'mileszs/ack.vim'                                 " act統合
+Plug 'easymotion/vim-easymotion'                       " より良い移動コマンド
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }        " 気を散らさない執筆
+call plug#end()
 
 " ウィンドウは閉じずにバッファを閉じる
 command! Bd :bp | :sp | :bn | :bd
