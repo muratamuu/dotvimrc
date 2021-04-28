@@ -103,6 +103,8 @@ nnoremap <leader>a :Ack! <c-r><c-w><cr>
 " Space + g で カーソルしたの単語を :grep
 nnoremap <leader>g :grep <c-r><c-w> */**<cr>
 
+" Space + ] で 関数定義に移動する (Pythonのみ)
+nnoremap <leader>] :YcmCompleter GoTo<cr>
 
 " swapファイルを元のファイルのディレクトリではなくHOME下に置く
 if !isdirectory(expand("$HOME/.vim/swap"))
@@ -179,6 +181,9 @@ Plug 'altercation/vim-colors-solarized'
 " 軽量なステータスライン拡張
 Plug 'vim-airline/vim-airline'
 
+" 自動補完
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+
 call plug#end()
 
 " [NERDTree] 起動時にブックマークを表示
@@ -194,6 +199,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
 " [Vinegar] NEEDTreeではなくNetrwを - コマンドで呼び出す
 let NERDTreeHijackNetrw = 0
 
+" [YouCompleteMe] コンパイルに時間がかかるためタイムアウトを伸ばす
+let g:plug_timeout = 300
 
 
 """" 使っていない設定
@@ -356,3 +363,8 @@ let NERDTreeHijackNetrw = 0
 "" \\ge/gE : 前のword/WORDの末尾に移動
 "" \\k/j : 上の行/下の行の先頭に移動
 "" \\n/N : 直前の検索結果に基づいて前方/後方の結果に移動
+
+"""" YouCompleteMeのコマンド
+"" エンジンは . ピリオドを入力すると自動的に有効になる
+"" Ctrl+<space> で手動で有効にもできる
+
