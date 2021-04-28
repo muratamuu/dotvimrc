@@ -20,6 +20,11 @@ set tabstop=2
 " 改行やCtrl-D,Tでインデントするスペース数をtabstopと同じにする
 set shiftwidth=0
 
+" 端末が広ければ行番号を表示する
+if &co > 80
+  set number
+endif
+
 " 不可視文字を表示する
 set list
 "set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
@@ -51,14 +56,10 @@ set belloff=all
 "let g:sloarized_termcolors=256
 "colorscheme solarized
 
-" ウィンドウは閉じずにバッファを閉じる
-command! Bd :bp | :sp | :bn | :bd
-
-" コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する
-noremap <c-h> <c-w><c-h>
-noremap <c-j> <c-w><c-j>
-noremap <c-k> <c-w><c-k>
-noremap <c-l> <c-w><c-l>
+" 親ディレクトリにあるtagsファイルを再帰的に探す
+" apt install ctags
+" ctags -R .
+set tags=./tags;,tags
 
 " コードを折りたたむ zo:open, zc:close zR:all open, zM: all close
 set foldmethod=indent
@@ -72,17 +73,35 @@ set wildmenu
 " 最長マッチまで補完してから自動補完メニューを開く
 set wildmode=list:longest,full
 
+" ウィンドウは閉じずにバッファを閉じる
+command! Bd :bp | :sp | :bn | :bd
+
 " Leaderキーをバックスラッシュからスペースに変更する
 let mapleader = "\<space>"
 
-" NERDTreeToggleを呼び出すLeaderショートカット
-" Space + n で NERDをトグルする
-noremap <leader>n :NERDTreeToggle<cr>
+" コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する
+noremap <c-h> <c-w><c-h>
+noremap <c-j> <c-w><c-j>
+noremap <c-k> <c-w><c-k>
+noremap <c-l> <c-w><c-l>
 
-" 親ディレクトリにあるtagsファイルを再帰的に探す
-" apt install ctags
-" ctags -R .
-set tags=./tags;,tags
+" F3で検索ハイライトを消す
+nnoremap <F3> :noh<cr>
+
+" Space + n で NERDTreeをトグルする
+nnoremap <leader>n :NERDTreeToggle<cr>
+
+" Space + p で CtrlPを呼び出す
+nnoremap <leader>p :CtrlP<cr>
+
+" Space + t で CtrlPTagを呼び出す
+nnoremap <leader>t :CtrlPTag<cr>
+
+" Space + a で カーソル下の単語を:Ack検索
+nnoremap <leader>a :Ack! <c-r><c-w><cr>
+
+" Space + g で カーソルしたの単語を :grep
+nnoremap <leader>g :grep <c-r><c-w> */**<cr>
 
 
 " swapファイルを元のファイルのディレクトリではなくHOME下に置く
