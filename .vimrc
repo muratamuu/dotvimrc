@@ -74,6 +74,11 @@ let mapleader = "\<space>"
 " Space + n で NERDをトグルする
 noremap <leader>n :NERDTreeToggle<cr>
 
+" 親ディレクトリにあるtagsファイルを再帰的に探す
+" apt install ctags
+" ctags -R .
+set tags=tags;
+
 " swapファイルを元のファイルのディレクトリではなくHOME下に置く
 if !isdirectory(expand("$HOME/.vim/swap"))
   call mkdir(expand("$HOME/.vim/swap"), "p")
@@ -207,6 +212,23 @@ let NERDTreeHijackNetrw = 0
 "" インサート中に Ctrl+r でレジスタの内容をペーストする
 "" :reg : 全てのレジスタの内容を確認する :reg a b : a, bレジスタの内容を確認する
 
+"""" 囲まれたところの選択
+"" vi" : ダブルクォートの中を選択  va" : ダブルクォートも選択
+"" vi] : []の中を選択  va] : []も選択
+"" vi) : ()の中を選択  va) : ()も選択
+
+"""" タグ移動
+"" gd : 変数を宣言している場所に移動
+"" gD : グローバスにファイル先頭から探す
+"" Ctrl+] : タグの定義場所に移動する
+"" Ctrl+t : タグスタックをさかのぼる
+"" :ts : タグリスト
+"" :tn, :tp : タグを表示する
+
+"""" マーキング
+"" m[a-z] : カーソル位置をマークする
+"" `[a-z] : マークした位置に戻る
+
 """" ファイルをまたいで検索する
 "" :grep : システムのgrepを使う
 "" :vimgrep : Vimのgrepを使う :vimgrep パターン **/*.py **で再帰的に検索する
@@ -230,6 +252,11 @@ let NERDTreeHijackNetrw = 0
 "" @[記録したアルファベット] : マクロ再生 (@a)
 "" @@ : 直前のマクロ再生を繰り返す
 
+"""" ウィンドウ
+"" Ctrl+w o, :onl, :on : 現在のウィンドウ以外のすべてのウィンドウを閉じる
+"" Ctrl+w x : 隣のウィンドウと入れ替える
+"" Ctrl+w r (R) : 行または列の中にあるすべてのウィンドウを右または下に移動する
+
 """" ウィンドウリサイズ
 "" :resize +N : 現在のウィンドウの高さをN行増加させる
 "" :resize -N : 現在のウィンドウの高さをN行減少させる
@@ -247,6 +274,12 @@ let NERDTreeHijackNetrw = 0
 
 """" 置換モード
 "" R : 置換モードに入る
+
+"""" 組み込み補完
+"" インサートモードで文字を入力してから Ctrl+n, Ctrl+p で補完
+"" インサートモードでCtrl+x, Ctrl+l 行を丸ごと補完
+"" インサートモードでCtrl+x, Ctrl+] タグを補完
+"" インサートモードでCtrl+x, Ctrl+f ファイル名を補完
 
 """" vim-unimpairedのコマンド
 "" ]b, [b : バッファを順に表示する
