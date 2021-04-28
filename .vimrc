@@ -67,6 +67,13 @@ set wildmenu
 " 最長マッチまで補完してから自動補完メニューを開く
 set wildmode=list:longest,full
 
+" Leaderキーをバックスラッシュからスペースに変更する
+let mapleader = "\<space>"
+
+" NERDTreeToggleを呼び出すLeaderショートカット
+" Space + n で NERDをトグルする
+noremap <leader>n :NERDTreeToggle<cr>
+
 " swapファイルを元のファイルのディレクトリではなくHOME下に置く
 if !isdirectory(expand("$HOME/.vim/swap"))
   call mkdir(expand("$HOME/.vim/swap"), "p")
@@ -105,27 +112,36 @@ endif
 call plug#begin()
 " vim-plugのヘルプを見れるようにする
 Plug 'junegunn/vim-plug'
+
 " netrwの見た目を良くする
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
 " -でnetrwを開く
 Plug 'tpope/vim-vinegar'
+
 " Ctrl+pであいまい検索
 Plug 'ctrlpvim/ctrlp.vim'
+
 " act統合 (apt install ack)
 Plug 'mileszs/ack.vim'
+
 " より良い移動コマンド
 Plug 'easymotion/vim-easymotion'
+
 " 気を散らさない執筆
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+"Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim'
+
 " Vimコマンドの便利なマッピング
 Plug 'tpope/vim-unimpaired'
+
 call plug#end()
 
 " [NERDTree] 起動時にブックマークを表示
 let NERDTreeShowBookmarks = 1
 
 " [NERDTree] Vim起動時にNERDTreeを開く
-autocmd VimEnter * NERDTree
+"autocmd VimEnter * NERDTree
 
 " [NERDTree] NERDTreeのウィンドウしか開かれていないときは自動的にとじる
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
@@ -178,6 +194,7 @@ let NERDTreeHijackNetrw = 0
 "" cc,S : インデントを保存しつつ行の内容をすべて削除してインサートモードに入る
 "" C : インサートモードに入る前にカーソルから右の文字をすべて削除する
 "" s : インサートモードに入る前にカーソル下の文字を削除する (数字を付けると数字文文字を削除する)
+"" インサートモード中に Ctrl+o で一回だけコマンド実行する
 
 """" レジスタ操作
 "" "ayw : aレジスタにワードをヤンク
@@ -218,6 +235,18 @@ let NERDTreeHijackNetrw = 0
 "" :resize -N : 現在のウィンドウの高さをN行減少させる
 "" :vertical resize +N : 現在のウィンドウの幅をN列増加させる
 "" :vertical resize -N : 現在のウィンドウの幅をN列減少させる
+
+"""" コマンドラインモード
+"" : コマンドラインモードに入る
+"" Ctrl+p, Ctrl+n コマンド履歴を移動
+"" Ctrl+b, Ctrl+e コマンドラインの先頭、末尾に移動
+"" Ctrl+f, Ctrl+c コマンド履歴の編集ウィンドウを開く、閉じる
+
+"""" Visualモード
+"" o : 選択範囲の反対側に移動する (したがって、反対側に選択範囲を拡張可能)
+
+"""" 置換モード
+"" R : 置換モードに入る
 
 """" vim-unimpairedのコマンド
 "" ]b, [b : バッファを順に表示する
