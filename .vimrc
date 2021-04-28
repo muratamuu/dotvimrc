@@ -40,11 +40,16 @@ set autochdir
 " ステータスラインを常に表示する
 set laststatus=2
 
+" 最後に実行したコマンドをステータスラインに表示する
+set showcmd
+
 " ベルを鳴らさない
-set vb t_vb=
+set belloff=all
 
 " カラースキームを設定する
-"colorscheme murphy
+"set background=dark
+"let g:sloarized_termcolors=256
+"colorscheme solarized
 
 " ウィンドウは閉じずにバッファを閉じる
 command! Bd :bp | :sp | :bn | :bd
@@ -77,7 +82,8 @@ noremap <leader>n :NERDTreeToggle<cr>
 " 親ディレクトリにあるtagsファイルを再帰的に探す
 " apt install ctags
 " ctags -R .
-set tags=tags;
+set tags=./tags;,tags
+
 
 " swapファイルを元のファイルのディレクトリではなくHOME下に置く
 if !isdirectory(expand("$HOME/.vim/swap"))
@@ -140,6 +146,20 @@ Plug 'junegunn/goyo.vim'
 " Vimコマンドの便利なマッピング
 Plug 'tpope/vim-unimpaired'
 
+" GitとVimを統合する
+Plug 'tpope/vim-fugitive'
+
+" カラースキームのブラウザ
+" :SCROLLCOLOR で呼び出す
+Plug 'vim-scripts/ScrollColors'
+
+" カラースキームのコレクション
+"Plug 'flazz/vim-colorschemes'
+Plug 'altercation/vim-colors-solarized'
+
+" 軽量なステータスライン拡張
+Plug 'vim-airline/vim-airline'
+
 call plug#end()
 
 " [NERDTree] 起動時にブックマークを表示
@@ -163,7 +183,6 @@ let NERDTreeHijackNetrw = 0
 "set noswapfile
 "set autoread
 "set hidden
-"set showcmd
 "set number
 "set cursorline
 "set smartindent
@@ -262,6 +281,11 @@ let NERDTreeHijackNetrw = 0
 "" :resize -N : 現在のウィンドウの高さをN行減少させる
 "" :vertical resize +N : 現在のウィンドウの幅をN列増加させる
 "" :vertical resize -N : 現在のウィンドウの幅をN列減少させる
+
+"""" ターミナル
+"" Ctrl+w "<レジスタ名> : レジスタの内容を張り付ける  Ctrl+w "" で直前のコメントを入れられる
+"" Ctrl+w Ctrl+c : ターミナルを終了する
+"" Ctrl+c Ctrl+c : 多いーみなるにCtrl+cを送信する
 
 """" コマンドラインモード
 "" : コマンドラインモードに入る
