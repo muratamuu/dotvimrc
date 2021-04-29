@@ -149,6 +149,9 @@ set wildmode=list:longest,full
 " start: 挿入区間の初めでバックスペースを働かせる
 set backspace=indent,eol,start
 
+" 閉じ括弧が入力されたとき、対応する開き括弧にわずかの間ジャンプする
+set showmatch
+
 " <= 編集 }}}
 
 " => 見た目 {{{1
@@ -184,6 +187,10 @@ set laststatus=2
 set showcmd
 
 " ベルを鳴らさない
+" 昔の書き方
+" set visualbell t_vb=
+" set noerrorbells " エラーメッセージの表示時にビープを鳴らさない
+" 今の書き方
 set belloff=all
 
 " <= 見た目 }}}
@@ -268,17 +275,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
 " <= [NERDTree] 設定 }}}
 
 " <= Plugin毎の設定 }}}
-
-" => もはや使っていない設定 ------------------------- {{{1
-"set fenc=utf-8
-"set autoread
-"set hidden
-"set number
-"set cursorline
-"set visualbell
-"set showmatch
-"set wrapscan
-" <= 使っていない設定 ------------------------- }}}
 
 " => Vim チートシート ------------------------- {{{1
 """" Vimの移動コマンド
