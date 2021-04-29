@@ -1,6 +1,6 @@
 " vimrcを変更したらVimを再起動するか:source $MYVIMRCを実行してリロードする
 " 全ての設定を削除する
-set all&
+"set all&
 
 " vi互換モードをOFFにする
 set nocompatible
@@ -52,9 +52,8 @@ set showcmd
 set belloff=all
 
 " カラースキームを設定する
-"set background=dark
-"let g:sloarized_termcolors=256
-"colorscheme solarized
+set background=dark
+colorscheme pablo
 
 " 親ディレクトリにあるtagsファイルを再帰的に探す
 " apt install ctags
@@ -85,26 +84,26 @@ noremap <c-j> <c-w><c-j>
 noremap <c-k> <c-w><c-k>
 noremap <c-l> <c-w><c-l>
 
-" F3で検索ハイライトを消す
-nnoremap <F3> :noh<cr>
+" ESC連打で検索ハイライトを消す
+nnoremap <Esc><Esc> :nohlsearch<cr>
 
 " Space + n で NERDTreeをトグルする
 nnoremap <leader>n :NERDTreeToggle<cr>
 
 " Space + p で CtrlPを呼び出す
-nnoremap <leader>p :CtrlP<cr>
+"nnoremap <leader>p :CtrlP<cr>
 
 " Space + t で CtrlPTagを呼び出す
-nnoremap <leader>t :CtrlPTag<cr>
+"nnoremap <leader>t :CtrlPTag<cr>
 
 " Space + a で カーソル下の単語を:Ack検索
-nnoremap <leader>a :Ack! <c-r><c-w><cr>
+"nnoremap <leader>a :Ack! <c-r><c-w><cr>
 
 " Space + g で カーソルしたの単語を :grep
-nnoremap <leader>g :grep <c-r><c-w> */**<cr>
+"nnoremap <leader>g :grep <c-r><c-w> */**<cr>
 
 " Space + ] で 関数定義に移動する (Pythonのみ)
-nnoremap <leader>] :YcmCompleter GoTo<cr>
+"nnoremap <leader>] :YcmCompleter GoTo<cr>
 
 " swapファイルを元のファイルのディレクトリではなくHOME下に置く
 if !isdirectory(expand("$HOME/.vim/swap"))
@@ -143,32 +142,29 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 call plug#begin()
 " vim-plugのヘルプを見れるようにする
-Plug 'junegunn/vim-plug'
+"Plug 'junegunn/vim-plug'
 
 " netrwの見た目を良くする
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " -でnetrwを開く
-Plug 'tpope/vim-vinegar'
+"Plug 'tpope/vim-vinegar'
 
 " Ctrl+pであいまい検索
 Plug 'ctrlpvim/ctrlp.vim'
 
 " act統合 (apt install ack)
-Plug 'mileszs/ack.vim'
+"Plug 'mileszs/ack.vim'
 
 " より良い移動コマンド
 Plug 'easymotion/vim-easymotion'
 
 " 気を散らさない執筆
 "Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-Plug 'junegunn/goyo.vim'
+"Plug 'junegunn/goyo.vim'
 
 " Vimコマンドの便利なマッピング
 Plug 'tpope/vim-unimpaired'
-
-" GitとVimを統合する
-Plug 'tpope/vim-fugitive'
 
 " カラースキームのブラウザ
 " :SCROLLCOLOR で呼び出す
@@ -176,13 +172,16 @@ Plug 'vim-scripts/ScrollColors'
 
 " カラースキームのコレクション
 "Plug 'flazz/vim-colorschemes'
-Plug 'altercation/vim-colors-solarized'
+"Plug 'altercation/vim-colors-solarized'
 
 " 軽量なステータスライン拡張
 Plug 'vim-airline/vim-airline'
 
+" GitとVimを統合する
+Plug 'tpope/vim-fugitive'
+
 " 自動補完
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+"Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 
 call plug#end()
 
@@ -197,11 +196,10 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
   \ b:NERDTree.isTabTree()) | q | endif
 
 " [Vinegar] NEEDTreeではなくNetrwを - コマンドで呼び出す
-let NERDTreeHijackNetrw = 0
+"let NERDTreeHijackNetrw = 0
 
 " [YouCompleteMe] コンパイルに時間がかかるためタイムアウトを伸ばす
-let g:plug_timeout = 300
-
+"let g:plug_timeout = 300
 
 """" 使っていない設定
 "set fenc=utf-8
@@ -219,7 +217,6 @@ let g:plug_timeout = 300
 "set ignorecase
 "set smartcase
 "set wrapscan
-"nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 """"
 """" Vimのメモ
