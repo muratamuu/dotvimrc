@@ -67,6 +67,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 
 " 複数行をまとめてコメントアウト
+" gc コマンド
 Plug 'tpope/vim-commentary'
 
 " 括弧やクォートやタグを表すテキストオブジェクトを追加し括弧の変換をやりやすくする
