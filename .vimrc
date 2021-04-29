@@ -5,129 +5,15 @@
 "set all&
 
 " vi互換モードをOFFにする
+" おまじないと化しているはずだがこれがないと foldmethod marker ができない
 set nocompatible
 
-" シンタックスハイライトを有効化
-syntax on
+" => Pre-load {{{1
 
 " ファイルタイプに基づいたインデントを有効化
 filetype plugin indent on
 
-" タブをスペースに展開する
-set expandtab
-
-" タブのスペース数を2にする
-set tabstop=2
-
-" 改行やCtrl-D,Tでインデントするスペース数をtabstopと同じにする
-set shiftwidth=0
-
-" 端末が広ければ行番号を表示する
-if &co > 80
-  set number
-endif
-
-" 不可視文字を表示する
-set list
-"set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
-
-" BSキーで改行やインデントを削除する
-set backspace=indent,eol,start
-
-" 検索結果をハイライトする
-set hlsearch
-
-" 検索をタイプするたびに動的に最初のマッチに移動する
-set incsearch
-
-" 開いているファイルのディレクトリに移動する
-set autochdir
-
-" ステータスラインを常に表示する
-set laststatus=2
-
-" 最後に実行したコマンドをステータスラインに表示する
-set showcmd
-
-" ベルを鳴らさない
-set belloff=all
-
-" => 見た目 ------------------------------- {{{1
-" ダークモード
-set background=dark
-
-" カラースキームを設定する
-colorscheme pablo
-
-" 行番号の色
-highlight LineNr ctermfg=darkyellow
-" <= 見た目 ------------------------------- }}}
-
-" 親ディレクトリにあるtagsファイルを再帰的に探す
-" apt install ctags
-" ctags -R .
-set tags=./tags;,tags
-
-" コードを折りたたむ zo:open, zc:close zR:all open, zM: all close
-set foldmethod=indent
-
-" 新しいファイルを開くときは折り畳みが開いているようにする
-autocmd BufRead * normal zR
-
-" Tabによる自動補完に有効にする
-set wildmenu
-
-" 最長マッチまで補完してから自動補完メニューを開く
-set wildmode=list:longest,full
-
-" ウィンドウは閉じずにバッファを閉じる
-command! Bd :bp | :sp | :bn | :bd
-
-" => Leaderショートカット ------------------------- {{{1
-" Leaderキーをバックスラッシュからスペースに変更する
-let mapleader = "\<space>"
-
-" Space + n で NERDTreeをトグルする
-nnoremap <leader>n :NERDTreeToggle<cr>
-
-" Space + p で CtrlPを呼び出す
-"nnoremap <leader>p :CtrlP<cr>
-
-" Space + t で CtrlPTagを呼び出す
-"nnoremap <leader>t :CtrlPTag<cr>
-
-" Space + a で カーソル下の単語を:Ack検索
-"nnoremap <leader>a :Ack! <c-r><c-w><cr>
-
-" Space + g で カーソルしたの単語を :grep
-"nnoremap <leader>g :grep <c-r><c-w> */**<cr>
-" <= Leaderショートカット ------------------------- }}}
-
-" => キーマッピング ------------------------------- {{{1
-" コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する
-noremap <c-h> <c-w><c-h>
-noremap <c-j> <c-w><c-j>
-noremap <c-k> <c-w><c-k>
-noremap <c-l> <c-w><c-l>
-
-" ESC連打で検索ハイライトを消す
-nnoremap <Esc><Esc> :nohlsearch<cr>
-" <= キーマッピング ------------------------------- }}}
-
-" swapファイルを元のファイルのディレクトリではなくHOME下に置く
-if !isdirectory(expand("$HOME/.vim/swap"))
-  call mkdir(expand("$HOME/.vim/swap"), "p")
-endif
-set directory=$HOME/.vim/swap//
-
-" すべてのファイルについて永続アンドゥを有効にする
-set undofile
-if !isdirectory(expand("$HOME/.vim/undodir"))
-  call mkdir(expand("$HOME/.vim/undodir"), "p")
-endif
-set undodir=$HOME/.vim/undodir
-
+" => 手動プラグイン管理 {{{2
 " 手動で管理するプラグインのインストール方法
 " GitHubでプラグインを見つけ以下の様にインストールする(下記はnerdtreeの例)
 " git clone https://github.com/scrooloose/nerdtree.git ~/.vim/pack/plugins/start/nerdtree
@@ -139,11 +25,16 @@ endif
 packloadall
 " すべてのプラグイン用にヘルプファイルをロードする
 silent! helptags ALL
+"<= 手動プラグイン管理 }}}
 
-" vim-plugでプラグインを管理する
-" :PlugInstallコマンドでプラグインをインストールしてください
-" :PlugUpdateコマンドですべてのプラグインをアップデートしてください
-" :PlugCleanでvimrcから削除したプラグインをファイルシステムから削除します
+" <= Pre-load }}}
+
+" => vim-plug プラグイン一覧 {{{1
+
+" :PlugInstallコマンドでプラグインをインストール
+" :PlugUpdateコマンドですべてのプラグインをアップデート
+" :PlugCleanでvimrcから削除したプラグインをファイルシステムから削除
+
 " vim-plugがまだインストールされていなければインストールする
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -151,8 +42,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" => プラグイン一覧 ------------------------- {{{1
 call plug#begin()
+
 " netrwの見た目を良くする
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
@@ -176,32 +67,216 @@ Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 
 call plug#end()
-" <= プラグイン一覧 ------------------------- }}}
 
-" => [NERDTree] 設定 ------------------------- {{{1
-" [NERDTree] 起動時にブックマークを表示
+" <= vim-plug プラグイン一覧 }}}
+
+" => 編集 {{{1
+
+" => インデント {{{2
+
+" 何個分のスペースで1つのタブとしてカウントするか
+" epandtabがオフのときは挿入スペース数がこの値になるとタブに変換される
+set tabstop=2
+
+" <Tab>を押したとき、何個分のスペースを挿入するか
+" 0: softtabstopの機能オフ,  -1: shiftwidthの値が使われる
+set softtabstop=0
+
+" インデントしたとき、スペース何個分のインデントをさせるか
+" Enter改行時、ノーマルモードの<<, >>、インサートモードのCtrl-D, Ctrl-T
+" 0: tabstopの値が使われる
+set shiftwidth=0
+
+" ソフトタブ(タブをスペースに展開すること)を有効にする
+set expandtab
+
+" 改行時に前の行のインデントと同じ幅でインデントを挿入する
+set autoindent
+
+" 行の先頭でタブを入力するとshiftwidthで定義されたインデントが挿入される
+set smarttab
+
+" <= インデント }}}
+
+" => ファイル保存 {{{2
+
+" スワップファイルを元のファイルのディレクトリではなくHOME下に置く
+if !isdirectory(expand("$HOME/.vim/swap"))
+  call mkdir(expand("$HOME/.vim/swap"), "p")
+endif
+set directory=$HOME/.vim/swap//
+
+" スワップファイルを作らない
+set noswapfile
+
+" 自動バックアップファイルを作らない
+set nobackup
+
+" ファイルの上書き前にバックアップを作る
+" nobackupの場合、このバックアップは上書き成功時に削除される
+set writebackup
+
+" 保存されていないファイルがあるときは終了前に保存確認
+set confirm
+
+" 保存されていないファイルがあるときでも別のファイルを開ける
+set hidden
+
+" 外部でファイルに変更があった場合は読み直す
+set autoread
+
+" <= ファイル保存 }}}
+
+" すべてのファイルについて永続アンドゥを有効にする
+set undofile
+if !isdirectory(expand("$HOME/.vim/undodir"))
+  call mkdir(expand("$HOME/.vim/undodir"), "p")
+endif
+set undodir=$HOME/.vim/undodir
+
+" 開いているファイルのディレクトリに移動する
+set autochdir
+
+" Tabによる自動補完に有効にする
+set wildmenu
+
+" 最長マッチまで補完してから自動補完メニューを開く
+set wildmode=list:longest,full
+
+" BSキーで改行やインデントを削除する
+" indent: autoindentを超えてバックスペースを働かせる
+" eol: 改行を超えてバックスペースを働かせる (行を連結する)
+" start: 挿入区間の初めでバックスペースを働かせる
+set backspace=indent,eol,start
+
+" <= 編集 }}}
+
+" => 見た目 {{{1
+
+" シンタックスハイライトを有効化
+" enable: 現在の色設定を変更しない
+" on: 現在の設定を履きしてデフォルトの色を設定
+syntax on
+
+" 端末が広ければ行番号を表示する
+if &co > 80
+  set number
+endif
+
+" 不可視文字を表示する
+set list
+"set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
+
+" ダークモード
+set background=dark
+
+" カラースキーム
+colorscheme pablo
+
+" 行番号の色
+highlight LineNr ctermfg=darkyellow
+
+" ステータスラインを常に表示する
+set laststatus=2
+
+" 最後に実行したコマンドをステータスラインに表示する
+set showcmd
+
+" ベルを鳴らさない
+set belloff=all
+
+" <= 見た目 }}}
+
+" => カスタムコマンド {{{1
+
+" ウィンドウは閉じずにバッファを閉じる
+command! Bd :bp | :sp | :bn | :bd
+
+" <= カスタムコマンド }}}
+
+" => Leader ショートカット {{{1
+
+" Leaderキーをバックスラッシュからスペースに変更する
+let mapleader = "\<space>"
+
+" Space + n で NERDTreeをトグルする
+nnoremap <leader>n :NERDTreeToggle<cr>
+
+" <= Leader ショートカット }}}
+
+" => 移動・検索 {{{1
+
+" コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する
+nnoremap <c-h> <c-w><c-h>
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
+
+" ESC連打で検索ハイライトを消す
+nnoremap <Esc><Esc> :nohlsearch<cr>
+
+" 検索結果をハイライトする
+set hlsearch
+
+" 大文字小文字を区別しないで検索
+set ignorecase
+
+" 検索パターンに大文字が含まれていたらignorecaseを無効化する
+set smartcase
+
+" 検索をタイプするたびに動的に最初のマッチに移動する
+set incsearch
+
+" 最後尾まで検索を終えたら次の検索で先頭に移る
+set wrapscan
+
+" <= 移動・検索 }}}
+
+" => ファイルタイプ別設定 {{{1
+
+" <= ファイルタイプ別設定 }}}
+
+" => その他・hack {{{1
+
+" ターミナルウィンドをアクティブバッファリストから隠す (for ]b and [b)
+autocmd TerminalOpen * if bufwinnr('') > 0 | setlocal nobuflisted | endif
+
+" コードを折りたたむ zo:open, zc:close zR:all open, zM: all close
+set foldmethod=indent
+
+" 新しいファイルを開くときは折り畳みが開いているようにする
+autocmd BufRead * normal zR
+
+" 親ディレクトリにあるtagsファイルを再帰的に探す
+" ctags -R . しておくこと
+set tags=./tags;,tags
+
+" <= その他 }}}
+
+" => Plugin毎の設定 {{{1
+
+" => [NERDTree] 設定 {{{2
+
+" 起動時にブックマークを表示
 let NERDTreeShowBookmarks = 1
 
-" [NERDTree] NERDTreeのウィンドウしか開かれていないときは自動的にとじる
+" NERDTreeのウィンドウしか開かれていないときは自動的にとじる
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
   \ b:NERDTree.isTabTree()) | q | endif
-" <= [NERDTree] 設定 ------------------------- }}}
 
-" => 使っていない設定 ------------------------- {{{1
+" <= [NERDTree] 設定 }}}
+
+" <= Plugin毎の設定 }}}
+
+" => もはや使っていない設定 ------------------------- {{{1
 "set fenc=utf-8
-"set nobackup
-"set noswapfile
 "set autoread
 "set hidden
 "set number
 "set cursorline
-"set smartindent
 "set visualbell
 "set showmatch
-"set autoindent
-"set softtabstop=0
-"set ignorecase
-"set smartcase
 "set wrapscan
 " <= 使っていない設定 ------------------------- }}}
 
