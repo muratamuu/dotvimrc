@@ -115,6 +115,11 @@ Plug 'dhruvasagar/vim-table-mode'
 " htmlやxmlのタグを入力すると自動で閉じるタグを入力する
 Plug 'alvan/vim-closetag'
 
+" LSPクライアント
+" :CocInstall <extension>, :CocUnInstall <extension>
+" extension: coc-json, coc-vetur
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 call plug#end()
 
 " <= vim-plug プラグイン一覧 }}}
@@ -184,7 +189,9 @@ endif
 set undodir=$HOME/.vim/undodir
 
 " 開いているファイルのディレクトリに移動する
-set autochdir
+" タグジャンプとかで移動しない方が良い
+" :lcd (or :cd) %:h でファイルのディレクトリに移動 :pwdで確認
+"set autochdir
 
 " Tabによる自動補完に有効にする
 set wildmenu
@@ -248,6 +255,9 @@ set belloff=all
 
 " ウィンドウは閉じずにバッファを閉じる
 command! Bd :bp | :sp | :bn | :bd
+
+" 保存時にsudo権限で無理やり保存
+cnoremap w!! w !sudo tee > /dev/null %<cr> :e! <cr>
 
 " <= カスタムコマンド }}}
 
