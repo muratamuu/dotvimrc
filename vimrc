@@ -261,6 +261,12 @@ nnoremap <leader>n :NERDTreeToggle<cr>
 " Space + g で GitGutterをトグルする
 nnoremap <leader>g :GitGutterToggle<cr>
 
+" Space + w で Ctrl+w 入力にする for googlechrome
+nnoremap <leader>w <C-w>
+
+" Space + t で Ctrl+t 入力にする for googlechrome
+nnoremap <leader>t <C-t>
+
 " <= Leader ショートカット }}}
 
 " => 移動・検索 {{{1
