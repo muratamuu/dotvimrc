@@ -66,6 +66,13 @@ Plug 'vim-airline/vim-airline'
 " GitとVimを統合する
 Plug 'tpope/vim-fugitive'
 
+" 複数行をまとめてコメントアウト
+Plug 'tpope/vim-commentary'
+
+" 括弧やクォートやタグを表すテキストオブジェクトを追加し括弧の変換をやりやすくする
+" cs"' とか ds[ とか ds} は(with スペース)
+Plug 'tpope/vim-surround'
+
 " 編集中のスクリプトをすぐに実行する
 " <Leader> + r で実行
 Plug 'thinca/vim-quickrun'
@@ -87,9 +94,25 @@ Plug 'prettier/vim-prettier', {
   \ 'do': 'npm install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
+" .editorconfigの設定でフォーマットする
+Plug 'editorconfig/editorconfig'
+
 " 末尾のスペースを可視化
 " :FixWhitespaceで削除もできる
 Plug 'bronson/vim-trailing-whitespace'
+
+" インデントを可視化
+Plug 'Yggdroot/indentLine'
+
+" Gitの追加/削除/変更行を行番号の左に表示する
+Plug 'airblade/vim-gitgutter'
+
+" markdownのテーブルを書きやすくする
+" TableModeToggleでon/offする
+Plug 'dhruvasagar/vim-table-mode'
+
+" htmlやxmlのタグを入力すると自動で閉じるタグを入力する
+Plug 'alvan/vim-closetag'
 
 call plug#end()
 
@@ -235,6 +258,9 @@ let mapleader = "\<space>"
 " Space + n で NERDTreeをトグルする
 nnoremap <leader>n :NERDTreeToggle<cr>
 
+" Space + g で GitGutterをトグルする
+nnoremap <leader>g :GitGutterToggle<cr>
+
 " <= Leader ショートカット }}}
 
 " => 移動・検索 {{{1
@@ -320,6 +346,25 @@ let g:previm_open_cmd = '/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Applicatio
 let g:previm_wsl_mode = 1
 
 " <= [previm] 設定 }}}
+
+" => [indentLine] 設定 {{{2
+
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#708090'
+
+" <= [indentLine] 設定 }}}
+
+" => [vim-table-mode] 設定 {{{2
+
+let g:table_mode_corner = '|'
+
+" <= [vim-table-mode] 設定 }}}
+
+" => [vim-closetag] 設定 {{{2
+
+let g:closetag_filenames = '*.html,*.vue'
+
+" <= [vim-closetag] 設定 }}}
 
 " <= Plugin毎の設定 }}}
 
