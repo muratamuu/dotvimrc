@@ -81,6 +81,16 @@ Plug 'reireias/vim-cheatsheet'
 " markdownプレビュー
 Plug 'previm/previm'
 
+" ソースコード整形ツールPrettierを呼び出す
+" <Leader> + p または :Prettier で実行する
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
+" 末尾のスペースを可視化
+" :FixWhitespaceで削除もできる
+Plug 'bronson/vim-trailing-whitespace'
+
 call plug#end()
 
 " <= vim-plug プラグイン一覧 }}}
