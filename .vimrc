@@ -1,3 +1,5 @@
+" vim:set foldmethod=marker:
+
 " vimrcを変更したらVimを再起動するか:source $MYVIMRCを実行してリロードする
 " 全ての設定を削除する
 "set all&
@@ -51,9 +53,16 @@ set showcmd
 " ベルを鳴らさない
 set belloff=all
 
-" カラースキームを設定する
+" => 見た目 ------------------------------- {{{1
+" ダークモード
 set background=dark
+
+" カラースキームを設定する
 colorscheme pablo
+
+" 行番号の色
+highlight LineNr ctermfg=darkyellow
+" <= 見た目 ------------------------------- }}}
 
 " 親ディレクトリにあるtagsファイルを再帰的に探す
 " apt install ctags
@@ -75,17 +84,9 @@ set wildmode=list:longest,full
 " ウィンドウは閉じずにバッファを閉じる
 command! Bd :bp | :sp | :bn | :bd
 
+" => Leaderショートカット ------------------------- {{{1
 " Leaderキーをバックスラッシュからスペースに変更する
 let mapleader = "\<space>"
-
-" コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する
-noremap <c-h> <c-w><c-h>
-noremap <c-j> <c-w><c-j>
-noremap <c-k> <c-w><c-k>
-noremap <c-l> <c-w><c-l>
-
-" ESC連打で検索ハイライトを消す
-nnoremap <Esc><Esc> :nohlsearch<cr>
 
 " Space + n で NERDTreeをトグルする
 nnoremap <leader>n :NERDTreeToggle<cr>
@@ -101,9 +102,18 @@ nnoremap <leader>n :NERDTreeToggle<cr>
 
 " Space + g で カーソルしたの単語を :grep
 "nnoremap <leader>g :grep <c-r><c-w> */**<cr>
+" <= Leaderショートカット ------------------------- }}}
 
-" Space + ] で 関数定義に移動する (Pythonのみ)
-"nnoremap <leader>] :YcmCompleter GoTo<cr>
+" => キーマッピング ------------------------------- {{{1
+" コントロールキーとhjklで分割されたウィンドウ間をすばやく移動する
+noremap <c-h> <c-w><c-h>
+noremap <c-j> <c-w><c-j>
+noremap <c-k> <c-w><c-k>
+noremap <c-l> <c-w><c-l>
+
+" ESC連打で検索ハイライトを消す
+nnoremap <Esc><Esc> :nohlsearch<cr>
+" <= キーマッピング ------------------------------- }}}
 
 " swapファイルを元のファイルのディレクトリではなくHOME下に置く
 if !isdirectory(expand("$HOME/.vim/swap"))
@@ -140,28 +150,17 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.github.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-call plug#begin()
-" vim-plugのヘルプを見れるようにする
-"Plug 'junegunn/vim-plug'
 
+" => プラグイン一覧 ------------------------- {{{1
+call plug#begin()
 " netrwの見た目を良くする
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-" -でnetrwを開く
-"Plug 'tpope/vim-vinegar'
 
 " Ctrl+pであいまい検索
 Plug 'ctrlpvim/ctrlp.vim'
 
-" act統合 (apt install ack)
-"Plug 'mileszs/ack.vim'
-
 " より良い移動コマンド
 Plug 'easymotion/vim-easymotion'
-
-" 気を散らさない執筆
-"Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-"Plug 'junegunn/goyo.vim'
 
 " Vimコマンドの便利なマッピング
 Plug 'tpope/vim-unimpaired'
@@ -170,38 +169,25 @@ Plug 'tpope/vim-unimpaired'
 " :SCROLLCOLOR で呼び出す
 Plug 'vim-scripts/ScrollColors'
 
-" カラースキームのコレクション
-"Plug 'flazz/vim-colorschemes'
-"Plug 'altercation/vim-colors-solarized'
-
 " 軽量なステータスライン拡張
 Plug 'vim-airline/vim-airline'
 
 " GitとVimを統合する
 Plug 'tpope/vim-fugitive'
 
-" 自動補完
-"Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
-
 call plug#end()
+" <= プラグイン一覧 ------------------------- }}}
 
+" => [NERDTree] 設定 ------------------------- {{{1
 " [NERDTree] 起動時にブックマークを表示
 let NERDTreeShowBookmarks = 1
-
-" [NERDTree] Vim起動時にNERDTreeを開く
-"autocmd VimEnter * NERDTree
 
 " [NERDTree] NERDTreeのウィンドウしか開かれていないときは自動的にとじる
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
   \ b:NERDTree.isTabTree()) | q | endif
+" <= [NERDTree] 設定 ------------------------- }}}
 
-" [Vinegar] NEEDTreeではなくNetrwを - コマンドで呼び出す
-"let NERDTreeHijackNetrw = 0
-
-" [YouCompleteMe] コンパイルに時間がかかるためタイムアウトを伸ばす
-"let g:plug_timeout = 300
-
-"""" 使っていない設定
+" => 使っていない設定 ------------------------- {{{1
 "set fenc=utf-8
 "set nobackup
 "set noswapfile
@@ -217,11 +203,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
 "set ignorecase
 "set smartcase
 "set wrapscan
+" <= 使っていない設定 ------------------------- }}}
 
-""""
-"""" Vimのメモ
-""""
-
+" => Vim チートシート ------------------------- {{{1
 """" Vimの移動コマンド
 "" hjkl: 1文字
 "" w/W: 次のword/WORDの先頭に移動
@@ -364,4 +348,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
 """" YouCompleteMeのコマンド
 "" エンジンは . ピリオドを入力すると自動的に有効になる
 "" Ctrl+<space> で手動で有効にもできる
+
+" <= Vim チートシート ------------------------- }}}
 
