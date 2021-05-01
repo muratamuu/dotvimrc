@@ -259,6 +259,9 @@ command! Bd :bp | :sp | :bn | :bd
 " 保存時にsudo権限で無理やり保存
 cnoremap w!! w !sudo tee > /dev/null %<cr> :e! <cr>
 
+" ターミナルからノーマルに移動するコマンド googlechrome
+tnoremap <c-x> <c-w>N
+
 " <= カスタムコマンド }}}
 
 " => Leader ショートカット {{{1
