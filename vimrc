@@ -120,6 +120,10 @@ Plug 'alvan/vim-closetag'
 " extension: coc-json, coc-vetur
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" ファジーな検索
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 call plug#end()
 
 " <= vim-plug プラグイン一覧 }}}
