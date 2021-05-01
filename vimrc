@@ -276,14 +276,21 @@ let mapleader = "\<space>"
 " Space + n で NERDTreeをトグルする
 nnoremap <leader>n :NERDTreeToggle<cr>
 
-" Space + g で GitGutterをトグルする
-nnoremap <leader>g :GitGutterToggle<cr>
+" Space + G で GitGutterをトグルする
+nnoremap <leader>G :GitGutterToggle<cr>
 
 " Space + w で Ctrl+w 入力にする for googlechrome
 nnoremap <leader>w <C-w>
 
 " Space + t で Ctrl+t 入力にする for googlechrome
 nnoremap <leader>t <C-t>
+
+" fzf のショートカット
+" apt install fzfが必要 GFilesはgit対象のファイルから探す
+nnoremap <silent> <leader>f :Files<cr>
+nnoremap <silent> <leader>b :Buffers<cr>
+nnoremap <silent> <leader>g :GFiles<cr>
+nnoremap <silent> <leader>h :History<cr>
 
 " <= Leader ショートカット }}}
 
