@@ -87,6 +87,7 @@ Plug 'simeji/winresizer'
 Plug 'reireias/vim-cheatsheet'
 
 " markdownプレビュー
+" :PrevimOpen
 Plug 'previm/previm'
 
 " ソースコード整形ツールPrettierを呼び出す
