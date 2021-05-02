@@ -8,6 +8,13 @@
 " おまじないと化しているはずだがこれがないと foldmethod marker ができない
 set nocompatible
 
+" => 必要なソフト {{{1
+
+" sudo apt install fzf ファジーファインダ
+" Microsoft IME <ESC>でIME OFFにするように設定しておく
+
+" <= 必要なソフト }}}
+
 " => Pre-load {{{1
 
 " ファイルタイプに基づいたインデントを有効化
@@ -57,8 +64,13 @@ Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 
+" ファジーな検索
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
 " Ctrl+pであいまい検索
-Plug 'ctrlpvim/ctrlp.vim'
+" ファジーファインダはfzfを使うのでこちらは削除
+"Plug 'ctrlpvim/ctrlp.vim'
 
 " より良い移動コマンド
 Plug 'easymotion/vim-easymotion'
@@ -131,10 +143,6 @@ Plug 'alvan/vim-closetag'
 " :CocInstall <extension>, :CocUnInstall <extension>
 " extension: coc-json, coc-vetur
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" ファジーな検索
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 
 " VSCode風のカラースキーム
 Plug 'tomasiser/vim-code-dark'
