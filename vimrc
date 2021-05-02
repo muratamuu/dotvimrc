@@ -47,6 +47,16 @@ call plug#begin()
 " netrwの見た目を良くする
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
+" ファイルツリー
+Plug 'lambdalisue/fern.vim'
+
+" ファイルツリーにgitの差分を表示する
+Plug 'lambdalisue/fern-git-status.vim'
+
+" ファイルツリーにフォントを表示する
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+
 " Ctrl+pであいまい検索
 Plug 'ctrlpvim/ctrlp.vim'
 
@@ -62,6 +72,7 @@ Plug 'vim-scripts/ScrollColors'
 
 " 軽量なステータスライン拡張
 Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 
 " GitとVimを統合する
 Plug 'tpope/vim-fugitive'
@@ -124,6 +135,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " ファジーな検索
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" VSCode風のカラースキーム
+Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
 
@@ -236,7 +250,8 @@ set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 set background=dark
 
 " カラースキーム
-colorscheme pablo
+"colorscheme pablo
+colorscheme codedark
 
 " 行番号の色
 highlight LineNr ctermfg=darkyellow
@@ -267,6 +282,22 @@ cnoremap w!! w !sudo tee > /dev/null %<cr> :e! <cr>
 " ターミナルからノーマルに移動するコマンド googlechrome
 tnoremap <c-x> <c-w>N
 
+" => [git-gutter操作] {{{2
+
+" g]で前の変更箇所へ移動する
+nnoremap g[ :GitGutterPrevHunk<CR>
+
+" g[で次の変更箇所へ移動する
+nnoremap g] :GitGutterNextHunk<CR>
+
+" ghでdiffをハイライトする
+nnoremap gh :GitGutterLineHighlightsToggle<CR>
+
+" gpでカーソル行のdiffを表示する
+nnoremap gp :GitGutterPreviewHunk<CR>
+
+" <= [git-gutter操作] }}}
+
 " <= カスタムコマンド }}}
 
 " => Leader ショートカット {{{1
@@ -276,6 +307,9 @@ let mapleader = "\<space>"
 
 " Space + n で NERDTreeをトグルする
 nnoremap <leader>n :NERDTreeToggle<cr>
+
+" Space + e で Fernをトグルする
+nnoremap <leader>e :Fern . -reveal=% -drawer -toggle -width=40 -stay<cr>
 
 " Space + G で GitGutterをトグルする
 nnoremap <leader>G :GitGutterToggle<cr>
@@ -342,6 +376,9 @@ autocmd BufRead * normal zR
 " ctags -R . しておくこと
 set tags=./tags;,tags
 
+" 挿入モードからノーマルモードへのESC切り替え遅延をなくす
+set ttimeoutlen=50
+
 " <= その他 }}}
 
 " => Plugin毎の設定 {{{1
@@ -397,6 +434,34 @@ let g:table_mode_corner = '|'
 let g:closetag_filenames = '*.html,*.vue'
 
 " <= [vim-closetag] 設定 }}}
+
+" => [vim-airline] 設定 {{{2
+
+" タブラインを有効化
+let g:airline#extensions#tabline#enabled = 1
+
+" ファイルパス表示を無効化
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" <= [vim-airline] 設定 }}}
+
+" => [fern] 設定 {{{2
+
+let g:fern#renderer = 'nerdfont'
+
+" <= [fern] 設定 }}}
+
+" => [git-gutter] 設定 {{{2
+
+" 記号の色を変更する
+highlight GitGutterAdd ctermfg=green
+highlight GitGutterChange ctermfg=blue
+highlight GitGutterDelete ctermfg=red
+
+" 反映時間を短くする (デフォルトは4000ms)
+set updatetime=250
+
+" <= [git-gutter] 設定 }}}
 
 " <= Plugin毎の設定 }}}
 
