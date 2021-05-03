@@ -53,7 +53,7 @@ endif
 
 call plug#begin()
 
-" netrwの見た目を良くする
+" ファイルツリー
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " ファイルツリー
@@ -66,7 +66,7 @@ Plug 'lambdalisue/fern-git-status.vim'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 
-" ファジーな検索
+" ファジーファインダ
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
@@ -88,8 +88,14 @@ Plug 'vim-scripts/ScrollColors'
 Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
 
-" GitとVimを統合する
+" Git統合
 Plug 'tpope/vim-fugitive'
+
+" Git統合
+Plug 'jreybert/vimagit'
+
+" Gitの追加/削除/変更行を行番号の左に表示する
+Plug 'airblade/vim-gitgutter'
 
 " 複数行をまとめてコメントアウト
 " gc コマンド
@@ -130,9 +136,6 @@ Plug 'bronson/vim-trailing-whitespace'
 
 " インデントを可視化
 Plug 'Yggdroot/indentLine'
-
-" Gitの追加/削除/変更行を行番号の左に表示する
-Plug 'airblade/vim-gitgutter'
 
 " markdownのテーブルを書きやすくする
 " TableModeToggleでon/offする
