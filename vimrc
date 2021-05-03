@@ -15,6 +15,12 @@ set nocompatible
 " Microsoft IME <ESC>でIME OFFにするように設定しておく
 " WSLターミナルでペーストのバインドを<Ctrl+v>から<Ctrl+Shift+v>に変えておく
 
+" => coc.nvim でインストールしたもの {{{2
+
+" coc-json, coc-vetur, coc-prettier, coc-eslint
+
+" <= coc.nvim でインストールしたもの }}}
+
 " <= 必要なソフト }}}
 
 " => Pre-load {{{1
@@ -55,6 +61,7 @@ call plug#begin()
 
 " ファイルツリー
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons'
 
 " ファイルツリー
 Plug 'lambdalisue/fern.vim'
@@ -121,11 +128,16 @@ Plug 'reireias/vim-cheatsheet'
 " :PrevimOpen
 Plug 'previm/previm'
 
+" markdownのテーブルを書きやすくする
+" TableModeToggleでon/offする
+Plug 'dhruvasagar/vim-table-mode'
+
 " ソースコード整形ツールPrettierを呼び出す
 " <Leader> + p または :Prettier で実行する
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'npm install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+" coc-prettierを使うのでこちらは無効
+"Plug 'prettier/vim-prettier', {
+"  \ 'do': 'npm install',
+"  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 " .editorconfigの設定でフォーマットする
 Plug 'editorconfig/editorconfig'
@@ -137,10 +149,6 @@ Plug 'bronson/vim-trailing-whitespace'
 " インデントを可視化
 Plug 'Yggdroot/indentLine'
 
-" markdownのテーブルを書きやすくする
-" TableModeToggleでon/offする
-Plug 'dhruvasagar/vim-table-mode'
-
 " htmlやxmlのタグを入力すると自動で閉じるタグを入力する
 Plug 'alvan/vim-closetag'
 
@@ -151,6 +159,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " VSCode風のカラースキーム
 Plug 'tomasiser/vim-code-dark'
+
+" 非同期Linter
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -295,8 +306,11 @@ command! Bd :bp | :sp | :bn | :bd
 " 保存時にsudo権限で無理やり保存
 cnoremap w!! w !sudo tee > /dev/null %<cr> :e! <cr>
 
-" ターミナルからノーマルに移動するコマンド googlechrome
+" ターミナルからノーマルに移動するコマンド googlechrome用 <C-x>
 tnoremap <c-x> <c-w>N
+
+" ターミナルからノーマルに移動するコマンド <ESC>
+tnoremap <ESC> <c-w>N
 
 " 入力モードでのカーソル移動
 inoremap <C-j> <Down>
@@ -363,9 +377,6 @@ nnoremap <leader>G :GitGutterToggle<cr>
 " <Leader> + w で Ctrl+w 入力にする for googlechrome
 nnoremap <leader>w <C-w>
 
-" <Leader> + t で Ctrl+t 入力にする for googlechrome
-nnoremap <leader>t <C-t>
-
 " <Leader> + b でバッファ検索を開く (fzf)
 nnoremap <leader>b :Buffers<cr>
 
@@ -396,11 +407,14 @@ command! -bang -nargs=* Rg
 \ <bang>0)
 nnoremap <leader>g :Rg<CR>
 
-" <leader> + r でカーソル位置の単語をファイル検索する
-nnoremap <leader>r vawy:Rg <c-r>"<cr>
+" <leader> + w でカーソル位置の単語をファイル検索する
+nnoremap <leader>w vawy:Rg <c-r>"<cr>
 
-" <leader> + r で範囲選択した単語をファイル検索する
-xnoremap <leader>r y:Rg <c-r>"<cr>
+" <leader> + w で範囲選択した単語をファイル検索する
+xnoremap <leader>w y:Rg <c-r>"<cr>
+
+" <leader> + p でprettier
+nnoremap <leader>p :call CocAction('format')<cr>
 
 " <= Leader ショートカット }}}
 
@@ -479,6 +493,9 @@ endif
 
 " 起動時にブックマークを表示
 let NERDTreeShowBookmarks = 1
+
+" アイコン表示
+let g:webdevicons_enable_nerdtree = 1
 
 " NERDTreeのウィンドウしか開かれていないときは自動的にとじる
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
