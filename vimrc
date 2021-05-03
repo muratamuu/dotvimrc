@@ -8,10 +8,12 @@
 " おまじないと化しているはずだがこれがないと foldmethod marker ができない
 set nocompatible
 
-" => 必要なソフト {{{1
+" => 必要なソフトや初期設定 {{{1
 
 " sudo apt install fzf ファジーファインダ
+" sudo apt install bat ripgrep ファジーファインダで高度なgrepを使う
 " Microsoft IME <ESC>でIME OFFにするように設定しておく
+" WSLターミナルでペーストのバインドを<Ctrl+v>から<Ctrl+Shift+v>に変えておく
 
 " <= 必要なソフト }}}
 
@@ -264,6 +266,9 @@ colorscheme codedark
 " 行番号の色
 highlight LineNr ctermfg=darkyellow
 
+" カーソル行をハイライトする
+set cursorline
+
 " ステータスラインを常に表示する
 set laststatus=2
 
@@ -290,6 +295,12 @@ cnoremap w!! w !sudo tee > /dev/null %<cr> :e! <cr>
 " ターミナルからノーマルに移動するコマンド googlechrome
 tnoremap <c-x> <c-w>N
 
+" 入力モードでのカーソル移動
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+
 " => [git-gutter操作] {{{2
 
 " g]で前の変更箇所へ移動する
@@ -306,6 +317,30 @@ nnoremap gp :GitGutterPreviewHunk<CR>
 
 " <= [git-gutter操作] }}}
 
+" => [fzf操作] {{{2
+
+" fmなどf[文字]コマンドにしたかったがf[文字]の行検索は使いたいのでtを割り当てた
+" tmでマーク検索を開く
+nnoremap tm :Marks<cr>
+
+" thでファイル閲覧履歴検索を開く
+nnoremap th :History<cr>
+
+" fcでコミット履歴検索を開く
+nnoremap tc :Commits<cr>
+
+" <= [fzf操作] }}}
+
+" => [Airline tab操作] {{{2
+
+" Ctrl+n で次のバッファに移動する
+nnoremap <c-n> :bnext<cr>
+
+" Ctrl+p で前のバッファに移動する
+nnoremap <c-p> :bprev<cr>
+
+" <= [Airline tab操作] }}}
+
 " <= カスタムコマンド }}}
 
 " => Leader ショートカット {{{1
@@ -313,27 +348,56 @@ nnoremap gp :GitGutterPreviewHunk<CR>
 " Leaderキーをバックスラッシュからスペースに変更する
 let mapleader = "\<space>"
 
-" Space + n で NERDTreeをトグルする
+" <Leader> + n で NERDTreeをトグルする
 nnoremap <leader>n :NERDTreeToggle<cr>
 
-" Space + e で Fernをトグルする
+" <Leader> + e で Fernをトグルする
 nnoremap <leader>e :Fern . -reveal=% -drawer -toggle -width=40<cr>
 
-" Space + G で GitGutterをトグルする
+" <Leader> + G で GitGutterをトグルする
 nnoremap <leader>G :GitGutterToggle<cr>
 
-" Space + w で Ctrl+w 入力にする for googlechrome
+" <Leader> + w で Ctrl+w 入力にする for googlechrome
 nnoremap <leader>w <C-w>
 
-" Space + t で Ctrl+t 入力にする for googlechrome
+" <Leader> + t で Ctrl+t 入力にする for googlechrome
 nnoremap <leader>t <C-t>
 
-" fzf のショートカット
-" apt install fzfが必要 GFilesはgit対象のファイルから探す
-nnoremap <silent> <leader>f :Files<cr>
-nnoremap <silent> <leader>b :Buffers<cr>
-nnoremap <silent> <leader>g :GFiles<cr>
-nnoremap <silent> <leader>h :History<cr>
+" <Leader> + b でバッファ検索を開く (fzf)
+nnoremap <leader>b :Buffers<cr>
+
+" <Leader> + h で履歴検索を開く (fzf)
+nnoremap <leader>h :History<cr>
+
+" <Leader> + l で開いているファイルの文字列検索を開く (fzf)
+nnoremap <leader>l :BLines<cr>
+
+" <Leader> + f でファイル検索を開く (fzf)
+" git管理されていれば:GFiles、そうでなければ:Filesを実行する
+fun! FzfOmniFiles()
+  let is_git = system('git status')
+  if v:shell_error
+    :Files
+  else
+    :GFiles
+  endif
+endfun
+nnoremap <leader>f :call FzfOmniFiles()<CR>
+
+" <leader> + g で文字列検索を開く
+command! -bang -nargs=* Rg
+\ call fzf#vim#grep(
+\ 'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
+\ <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'up:60%')
+\ : fzf#vim#with_preview({'options': '--exact --delimiter : --nth 3..'}),
+\ <bang>0)
+nnoremap <leader>g :Rg<CR>
+
+" <leader> + r でカーソル位置の単語をファイル検索する
+nnoremap <leader>r vawy:Rg <c-r>"<cr>
+
+" <leader> + r で範囲選択した単語をファイル検索する
+xnoremap <leader>r y:Rg <c-r>"<cr>
 
 " <= Leader ショートカット }}}
 
