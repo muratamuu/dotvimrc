@@ -309,7 +309,7 @@ let mapleader = "\<space>"
 nnoremap <leader>n :NERDTreeToggle<cr>
 
 " Space + e で Fernをトグルする
-nnoremap <leader>e :Fern . -reveal=% -drawer -toggle -width=40 -stay<cr>
+nnoremap <leader>e :Fern . -reveal=% -drawer -toggle -width=40<cr>
 
 " Space + G で GitGutterをトグルする
 nnoremap <leader>G :GitGutterToggle<cr>
@@ -378,6 +378,23 @@ set tags=./tags;,tags
 
 " 挿入モードからノーマルモードへのESC切り替え遅延をなくす
 set ttimeoutlen=50
+
+" ターミナルでコピペしてもインデントしないようにする (:set pasteを不要にする)
+if &term =~ "xterm"
+  let &t_ti .= "\e[?2004h"
+  let &t_te .= "\e[?2004l"
+  let &pastetoggle = "\e[201~"
+
+  function XTermPasteBegin(ret)
+    set paste
+    return a:ret
+  endfunction
+
+  noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
+  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+  cnoremap <special> <Esc>[200~ <nop>
+  cnoremap <special> <Esc>[201~ <nop>
+endif
 
 " <= その他 }}}
 
