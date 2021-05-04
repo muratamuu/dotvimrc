@@ -1,6 +1,6 @@
 " vim:set foldmethod=marker:
 
-" vimrcを変更したらVimを再起動するか:source $MYVIMRCを実行してリロードする
+" vimrcを変更したらVimを再起動するか:source % or $MYVIMRC を実行してリロードする
 " 全ての設定を削除する
 "set all&
 
@@ -15,11 +15,11 @@ set nocompatible
 " Microsoft IME <ESC>でIME OFFにするように設定しておく
 " WSLターミナルでペーストのバインドを<Ctrl+v>から<Ctrl+Shift+v>に変えておく
 
-" => coc.nvim でインストールしたもの {{{2
+" => coc.nvim でインストール {{{2
 
-" coc-json, coc-vetur, coc-prettier, coc-eslint, coc-rls
+" :CocInstall coc-json, coc-vetur, coc-prettier, coc-eslint, coc-rls
 
-" <= coc.nvim でインストールしたもの }}}
+" <= coc.nvim でインストール }}}
 
 " <= 必要なソフト }}}
 
@@ -111,6 +111,7 @@ Plug 'tpope/vim-commentary'
 " 括弧やクォートやタグを表すテキストオブジェクトを追加し括弧の変換をやりやすくする
 " cs"' とか ds[ とか ds} は(with スペース)
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat' " . で繰り返す
 
 " 編集中のスクリプトをすぐに実行する
 " <Leader> + r で実行
@@ -165,6 +166,10 @@ Plug 'w0rp/ale'
 
 " バッファ削除時にウィンドウ分割を維持
 Plug 'qpkorr/vim-bufkill'
+
+" ファイルの操作
+" :Delete, :Chmod, :Rename, :Move
+Plug 'tpope/vim-eunuch'
 
 call plug#end()
 
@@ -350,6 +355,15 @@ nnoremap gp :GitGutterPreviewHunk<CR>
 " => [fzf操作] {{{2
 
 " fmなどf[文字]コマンドにしたかったがf[文字]の行検索は使いたいのでtを割り当てた
+" tfでファイル一覧を開く
+nnoremap tf :Files<cr>
+
+" tgでGitリポジトリのファイル一覧を開く
+nnoremap tg :GFiles<cr>
+
+" tbでバッファ一覧を開く
+nnoremap tb :Buffers<cr>
+
 " tmでマーク検索を開く
 nnoremap tm :Marks<cr>
 
