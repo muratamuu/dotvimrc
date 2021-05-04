@@ -17,7 +17,7 @@ set nocompatible
 
 " => coc.nvim でインストールしたもの {{{2
 
-" coc-json, coc-vetur, coc-prettier, coc-eslint
+" coc-json, coc-vetur, coc-prettier, coc-eslint, coc-rls
 
 " <= coc.nvim でインストールしたもの }}}
 
@@ -163,6 +163,9 @@ Plug 'tomasiser/vim-code-dark'
 " 非同期Linter
 Plug 'w0rp/ale'
 
+" バッファ削除時にウィンドウ分割を維持
+Plug 'qpkorr/vim-bufkill'
+
 call plug#end()
 
 " <= vim-plug プラグイン一覧 }}}
@@ -251,6 +254,10 @@ set backspace=indent,eol,start
 " 閉じ括弧が入力されたとき、対応する開き括弧にわずかの間ジャンプする
 set showmatch
 
+" ヤンクした内容をクリップボードに入れる
+" :versionで+clipboardでコンパイルされていないので動かない
+"set clipboard=unnamedplus
+
 " <= 編集 }}}
 
 " => 見た目 {{{1
@@ -311,6 +318,12 @@ tnoremap <c-x> <c-w>N
 
 " ターミナルからノーマルに移動するコマンド <ESC>
 tnoremap <ESC> <c-w>N
+
+" 挿入モードからノーマルモードへホームポジションを離れずに戻る jk
+inoremap jk <ESC>
+
+" バッファ削除
+nnoremap <C-c> :BD<cr>
 
 " 入力モードでのカーソル移動
 inoremap <C-j> <Down>
