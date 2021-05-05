@@ -348,9 +348,9 @@ nnoremap <C-c> :BD<cr>
 
 " xやsではヤンクしない
 nnoremap x "_x
-vnoremap x "_x
+"vnoremap x "_x
 nnoremap s "_s
-vnoremap s "_s
+"vnoremap s "_s
 
 " => InsertモードでEmacsキーバインド {{{2
 
