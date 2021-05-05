@@ -263,6 +263,12 @@ set showmatch
 " :versionで+clipboardでコンパイルされていないので動かない
 "set clipboard=unnamedplus
 
+" 新しいウィンドウを下に開く
+set splitbelow
+
+" 新しいウィンドウを右に開く
+set splitright
+
 " <= 編集 }}}
 
 " => 見た目 {{{1
@@ -598,6 +604,12 @@ highlight GitGutterDelete ctermfg=red
 set updatetime=250
 
 " <= [git-gutter] 設定 }}}
+
+" => [quickrun] 設定 {{{2
+
+let g:quickrun_config={'_': {'split': ''}}
+
+" => [quickrun] 設定 }}}
 
 " <= Plugin毎の設定 }}}
 
