@@ -178,6 +178,9 @@ Plug 'qpkorr/vim-bufkill'
 " :Delete, :Chmod, :Rename, :Move
 Plug 'tpope/vim-eunuch'
 
+" 括弧の補完
+Plug 'cohama/lexima.vim'
+
 call plug#end()
 
 " <= vim-plug プラグイン一覧 }}}
@@ -371,24 +374,6 @@ inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 
 " <= InsertモードでEmacsキーバインド }}}
-
-" => [括弧補完] {{{2
-
-inoremap { {}<Left>
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap () ()
-inoremap ( ()<ESC>i
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
-inoremap [ []<ESC>i
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-
-inoremap '' ''
-inoremap ' ''<ESC>i
-inoremap "" ""
-inoremap " ""<ESC>i
-inoremap < <><ESC>i
-
-" <= [括弧補完] }}}
 
 " => [git-gutter操作] {{{2
 
