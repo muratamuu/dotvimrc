@@ -507,6 +507,11 @@ nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
 
+tnoremap <c-h> <c-w><c-h>
+tnoremap <c-j> <c-w><c-j>
+tnoremap <c-k> <c-w><c-k>
+tnoremap <c-l> <c-w><c-l>
+
 " ESC連打で検索ハイライトを消す
 nnoremap <Esc><Esc> :nohlsearch<cr>
 
