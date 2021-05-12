@@ -42,6 +42,13 @@ packloadall
 silent! helptags ALL
 "<= 手動プラグイン管理 }}}
 
+" .vimrc保存時の自動読み込み
+augroup source-vimrc
+  autocmd!
+  autocmd BufWritePost *vimrc source $MYVIMRC | set foldmethod=marker
+  autocmd BufWritePost *gvimrc if has('gui_running') source $MYGVIMRC
+augroup END
+
 " <= Pre-load }}}
 
 " => vim-plug プラグイン一覧 {{{1
@@ -171,6 +178,9 @@ Plug 'qpkorr/vim-bufkill'
 " :Delete, :Chmod, :Rename, :Move
 Plug 'tpope/vim-eunuch'
 
+" 括弧の補完
+Plug 'cohama/lexima.vim'
+
 call plug#end()
 
 " <= vim-plug プラグイン一覧 }}}
@@ -269,6 +279,9 @@ set splitbelow
 " 新しいウィンドウを右に開く
 set splitright
 
+" 検索にマッチした行以外を折りたたむ機能はOFF
+set nofoldenable
+
 " <= 編集 }}}
 
 " => 見た目 {{{1
@@ -336,11 +349,31 @@ inoremap jk <ESC>
 " バッファ削除
 nnoremap <C-c> :BD<cr>
 
-" 入力モードでのカーソル移動
+" xやsではヤンクしない
+nnoremap x "_x
+"vnoremap x "_x
+nnoremap s "_s
+"vnoremap s "_s
+
+" => InsertモードでEmacsキーバインド {{{2
+
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-a> <C-o>:call <SID>home()<CR>
+inoremap <C-e> <End>
+inoremap <C-d> <Del>
+inoremap <C-h> <BS>
+inoremap <C-k> <C-r>=<SID>kill()<CR>
+
+" 一応viモードでもカーソル移動
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
+
+" <= InsertモードでEmacsキーバインド }}}
 
 " => [git-gutter操作] {{{2
 
