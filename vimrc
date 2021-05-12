@@ -429,7 +429,9 @@ fun! FzfOmniFiles()
     :GFiles
   endif
 endfun
-nnoremap <leader>f :call FzfOmniFiles()<CR>
+"nnoremap <leader>f :call FzfOmniFiles()<CR>
+nnoremap <leader>ff :Files<cr>
+nnoremap <leader>f :GFiles<cr>
 
 " <leader> + g で文字列検索を開く
 command! -bang -nargs=* Rg
@@ -491,7 +493,7 @@ set wrapscan
 " => その他・hack {{{1
 
 " ターミナルウィンドをアクティブバッファリストから隠す (for ]b and [b)
-autocmd TerminalOpen * if bufwinnr('') > 0 | setlocal nobuflisted | endif
+"autocmd TerminalOpen * if bufwinnr('') > 0 | setlocal nobuflisted | endif
 
 " コードを折りたたむ zo:open, zc:close zR:all open, zM: all close
 set foldmethod=indent
