@@ -14,33 +14,11 @@ set nocompatible
 " sudo apt install bat ripgrep ファジーファインダで高度なgrepを使う
 " Microsoft IME <ESC>でIME OFFにするように設定しておく
 " WSLターミナルでペーストのバインドを<Ctrl+v>から<Ctrl+Shift+v>に変えておく
-
-" => coc.nvim でインストール {{{2
-
 " :CocInstall coc-json, coc-vetur, coc-prettier, coc-eslint, coc-rls
-
-" <= coc.nvim でインストール }}}
 
 " <= 必要なソフト }}}
 
 " => Pre-load {{{1
-
-" ファイルタイプに基づいたインデントを有効化
-filetype plugin indent on
-
-" => 手動プラグイン管理 {{{2
-" 手動で管理するプラグインのインストール方法
-" GitHubでプラグインを見つけ以下の様にインストールする(下記はnerdtreeの例)
-" git clone https://github.com/scrooloose/nerdtree.git ~/.vim/pack/plugins/start/nerdtree
-" プラグイン用のディレクトリを作成する
-if !isdirectory(expand("$HOME/.vim/pack/plugins/start/"))
-  call mkdir(expand("$HOME/.vim/pack/plugins/start/"), "p")
-endif
-" すべてのプラグインをロードする
-packloadall
-" すべてのプラグイン用にヘルプファイルをロードする
-silent! helptags ALL
-"<= 手動プラグイン管理 }}}
 
 " .vimrc保存時の自動読み込み
 augroup source-vimrc
@@ -48,6 +26,9 @@ augroup source-vimrc
   autocmd BufWritePost *vimrc source $MYVIMRC | set foldmethod=marker
   autocmd BufWritePost *gvimrc if has('gui_running') source $MYGVIMRC
 augroup END
+
+" Leaderキーをバックスラッシュからスペースに変更する
+let mapleader = "\<space>"
 
 " <= Pre-load }}}
 
@@ -68,7 +49,7 @@ call plug#begin()
 
 " ファイルツリー
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'ryanoasis/vim-devicons'
+"Plug 'ryanoasis/vim-devicons' " deviconは見づらいから使わない
 " 起動時にブックマークを表示
 let NERDTreeShowBookmarks = 1
 " アイコン表示
@@ -76,6 +57,8 @@ let g:webdevicons_enable_nerdtree = 1
 " NERDTreeのウィンドウしか開かれていないときは自動的にとじる
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
  \ b:NERDTree.isTabTree()) | q | endif
+" <Leader> + n で NERDTreeをトグルする
+nnoremap <leader>n :NERDTreeToggle<cr>
 
 " ファジーファインダ
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -97,6 +80,10 @@ Plug 'vim-scripts/ScrollColors'
 
 " 軽量なステータスライン拡張
 Plug 'vim-airline/vim-airline'
+" タブラインを有効化
+let g:airline#extensions#tabline#enabled = 1
+" ファイルパス表示を無効化
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Git統合
 Plug 'tpope/vim-fugitive'
@@ -106,6 +93,20 @@ Plug 'jreybert/vimagit'
 
 " Gitの追加/削除/変更行を行番号の左に表示する
 Plug 'airblade/vim-gitgutter'
+" 記号の色を変更する
+highlight GitGutterAdd ctermfg=green
+highlight GitGutterChange ctermfg=blue
+highlight GitGutterDelete ctermfg=red
+" 反映時間を短くする (デフォルトは4000ms)
+set updatetime=250
+" g]で前の変更箇所へ移動する
+nnoremap g[ :GitGutterPrevHunk<CR>
+" g[で次の変更箇所へ移動する
+nnoremap g] :GitGutterNextHunk<CR>
+" ghでdiffをハイライトする
+nnoremap gh :GitGutterLineHighlightsToggle<CR>
+" gpでカーソル行のdiffを表示する
+nnoremap gp :GitGutterPreviewHunk<CR>
 
 " 複数行をまとめてコメントアウト
 " gc コマンド
@@ -119,22 +120,31 @@ Plug 'tpope/vim-repeat' " . で繰り返す
 " 編集中のスクリプトをすぐに実行する
 " <Leader> + r で実行
 Plug 'thinca/vim-quickrun'
+let g:quickrun_config={'_': {'split': ''}}
 
 " ウィンドウの分割サイズを簡単に調整する
 " Ctrl+e でリサイズ開始、hjklで調整、Enterで確定
 Plug 'simeji/winresizer'
+" ウィンドウリサイズ量をデフォルトの3から1に変更
+let g:winresizer_vert_resize = 1
+let g:winresizer_horiz_resize = 1
 
 " チートシートを別ペインで表示する
 " :Cheatで表示切替
 Plug 'reireias/vim-cheatsheet'
+let g:cheatsheet#cheat_file = '~/.cheatsheet.md'
 
 " markdownプレビュー
 " :PrevimOpen
 Plug 'previm/previm'
+" WSLで動かす
+let g:previm_open_cmd = '/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
+let g:previm_wsl_mode = 1
 
 " markdownのテーブルを書きやすくする
 " TableModeToggleでon/offする
 Plug 'dhruvasagar/vim-table-mode'
+let g:table_mode_corner = '|'
 
 " ソースコード整形ツールPrettierを呼び出す
 " <Leader> + p または :Prettier で実行する
@@ -152,9 +162,12 @@ Plug 'bronson/vim-trailing-whitespace'
 
 " インデントを可視化
 Plug 'Yggdroot/indentLine'
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#708090'
 
 " htmlやxmlのタグを入力すると自動で閉じるタグを入力する
 Plug 'alvan/vim-closetag'
+let g:closetag_filenames = '*.html,*.vue'
 
 " LSPクライアント
 " :CocInstall <extension>, :CocUnInstall <extension>
@@ -184,6 +197,9 @@ call plug#end()
 " => 編集 {{{1
 
 " => インデント {{{2
+
+" ファイルタイプに基づいたインデントを有効化
+filetype plugin indent on
 
 " 何個分のスペースで1つのタブとしてカウントするか
 " epandtabがオフのときは挿入スペース数がこの値になるとタブに変換される
@@ -371,67 +387,15 @@ inoremap <C-l> <Right>
 
 " <= InsertモードでEmacsキーバインド }}}
 
-" => [git-gutter操作] {{{2
-
-" g]で前の変更箇所へ移動する
-nnoremap g[ :GitGutterPrevHunk<CR>
-
-" g[で次の変更箇所へ移動する
-nnoremap g] :GitGutterNextHunk<CR>
-
-" ghでdiffをハイライトする
-nnoremap gh :GitGutterLineHighlightsToggle<CR>
-
-" gpでカーソル行のdiffを表示する
-nnoremap gp :GitGutterPreviewHunk<CR>
-
-" <= [git-gutter操作] }}}
-
-" => [fzf操作] {{{2
-
-" fmなどf[文字]コマンドにしたかったがf[文字]の行検索は使いたいのでtを割り当てた
-" tfでファイル一覧を開く
-nnoremap tf :Files<cr>
-
-" tgでGitリポジトリのファイル一覧を開く
-nnoremap tg :GFiles<cr>
-
-" tbでバッファ一覧を開く
-nnoremap tb :Buffers<cr>
-
-" tmでマーク検索を開く
-nnoremap tm :Marks<cr>
-
-" thでファイル閲覧履歴検索を開く
-nnoremap th :History<cr>
-
-" fcでコミット履歴検索を開く
-nnoremap tc :Commits<cr>
-
-" <= [fzf操作] }}}
-
-" => [Airline tab操作] {{{2
-
 " Ctrl+n で次のバッファに移動する
 nnoremap <c-n> :bnext<cr>
 
 " Ctrl+p で前のバッファに移動する
 nnoremap <c-p> :bprev<cr>
 
-" <= [Airline tab操作] }}}
-
 " <= カスタムコマンド }}}
 
 " => Leader ショートカット {{{1
-
-" Leaderキーをバックスラッシュからスペースに変更する
-let mapleader = "\<space>"
-
-" <Leader> + n で NERDTreeをトグルする
-nnoremap <leader>n :NERDTreeToggle<cr>
-
-" <Leader> + G で GitGutterをトグルする
-nnoremap <leader>G :GitGutterToggle<cr>
 
 " <Leader> + w で Ctrl+w 入力にする for googlechrome
 nnoremap <leader>w <C-w>
@@ -445,17 +409,6 @@ nnoremap <leader>h :History<cr>
 " <Leader> + l で開いているファイルの文字列検索を開く (fzf)
 nnoremap <leader>l :BLines<cr>
 
-" <Leader> + f でファイル検索を開く (fzf)
-" git管理されていれば:GFiles、そうでなければ:Filesを実行する
-fun! FzfOmniFiles()
-  let is_git = system('git status')
-  if v:shell_error
-    :Files
-  else
-    :GFiles
-  endif
-endfun
-"nnoremap <leader>f :call FzfOmniFiles()<CR>
 nnoremap <leader>ff :Files<cr>
 nnoremap <leader>f :GFiles<cr>
 
@@ -552,77 +505,4 @@ if &term =~ "xterm"
 endif
 
 " <= その他 }}}
-
-" => Plugin毎の設定 {{{1
-
-" => [winresizer] 設定 {{{2
-
-" ウィンドウリサイズ量をデフォルトの3から1に変更
-let g:winresizer_vert_resize = 1
-let g:winresizer_horiz_resize = 1
-
-" <= [winresizer] 設定 }}}
-
-" => [vim-cheatsheet] 設定 {{{2
-
-let g:cheatsheet#cheat_file = '~/.cheatsheet.md'
-
-" <= [vim-cheatsheet] 設定 }}}
-
-" => [previm] 設定 {{{2
-
-" WSLで動かす
-let g:previm_open_cmd = '/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
-let g:previm_wsl_mode = 1
-
-" <= [previm] 設定 }}}
-
-" => [indentLine] 設定 {{{2
-
-let g:indentLine_color_term = 239
-let g:indentLine_color_gui = '#708090'
-
-" <= [indentLine] 設定 }}}
-
-" => [vim-table-mode] 設定 {{{2
-
-let g:table_mode_corner = '|'
-
-" <= [vim-table-mode] 設定 }}}
-
-" => [vim-closetag] 設定 {{{2
-
-let g:closetag_filenames = '*.html,*.vue'
-
-" <= [vim-closetag] 設定 }}}
-
-" => [vim-airline] 設定 {{{2
-
-" タブラインを有効化
-let g:airline#extensions#tabline#enabled = 1
-
-" ファイルパス表示を無効化
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-" <= [vim-airline] 設定 }}}
-
-" => [git-gutter] 設定 {{{2
-
-" 記号の色を変更する
-highlight GitGutterAdd ctermfg=green
-highlight GitGutterChange ctermfg=blue
-highlight GitGutterDelete ctermfg=red
-
-" 反映時間を短くする (デフォルトは4000ms)
-set updatetime=250
-
-" <= [git-gutter] 設定 }}}
-
-" => [quickrun] 設定 {{{2
-
-let g:quickrun_config={'_': {'split': ''}}
-
-" => [quickrun] 設定 }}}
-
-" <= Plugin毎の設定 }}}
 
