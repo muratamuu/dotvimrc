@@ -69,16 +69,13 @@ call plug#begin()
 " ファイルツリー
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
-
-" ファイルツリー
-Plug 'lambdalisue/fern.vim'
-
-" ファイルツリーにgitの差分を表示する
-Plug 'lambdalisue/fern-git-status.vim'
-
-" ファイルツリーにフォントを表示する
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" 起動時にブックマークを表示
+let NERDTreeShowBookmarks = 1
+" アイコン表示
+let g:webdevicons_enable_nerdtree = 1
+" NERDTreeのウィンドウしか開かれていないときは自動的にとじる
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
+ \ b:NERDTree.isTabTree()) | q | endif
 
 " ファジーファインダ
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -100,7 +97,6 @@ Plug 'vim-scripts/ScrollColors'
 
 " 軽量なステータスライン拡張
 Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
 
 " Git統合
 Plug 'tpope/vim-fugitive'
@@ -434,9 +430,6 @@ let mapleader = "\<space>"
 " <Leader> + n で NERDTreeをトグルする
 nnoremap <leader>n :NERDTreeToggle<cr>
 
-" <Leader> + e で Fernをトグルする
-nnoremap <leader>e :Fern . -reveal=% -drawer -toggle -width=40<cr>
-
 " <Leader> + G で GitGutterをトグルする
 nnoremap <leader>G :GitGutterToggle<cr>
 
@@ -562,20 +555,6 @@ endif
 
 " => Plugin毎の設定 {{{1
 
-" => [NERDTree] 設定 {{{2
-
-" 起動時にブックマークを表示
-let NERDTreeShowBookmarks = 1
-
-" アイコン表示
-let g:webdevicons_enable_nerdtree = 1
-
-" NERDTreeのウィンドウしか開かれていないときは自動的にとじる
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
-  \ b:NERDTree.isTabTree()) | q | endif
-
-" <= [NERDTree] 設定 }}}
-
 " => [winresizer] 設定 {{{2
 
 " ウィンドウリサイズ量をデフォルトの3から1に変更
@@ -626,12 +605,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 " <= [vim-airline] 設定 }}}
-
-" => [fern] 設定 {{{2
-
-let g:fern#renderer = 'nerdfont'
-
-" <= [fern] 設定 }}}
 
 " => [git-gutter] 設定 {{{2
 
