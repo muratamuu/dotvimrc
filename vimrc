@@ -1,6 +1,5 @@
 " vim:set foldmethod=marker:
 
-" vimrcを変更したらVimを再起動するか:source % or $MYVIMRC を実行してリロードする
 " 全ての設定を削除する
 "set all&
 
@@ -27,9 +26,6 @@ augroup source-vimrc
   autocmd BufWritePost *gvimrc if has('gui_running') source $MYGVIMRC
 augroup END
 
-" Leaderキーをバックスラッシュからスペースに変更する
-let mapleader = "\<space>"
-
 " <= Pre-load }}}
 
 " => vim-plug プラグイン一覧 {{{1
@@ -49,7 +45,6 @@ call plug#begin()
 
 " ファイルツリー
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-"Plug 'ryanoasis/vim-devicons' " deviconは見づらいから使わない
 " 起動時にブックマークを表示
 let NERDTreeShowBookmarks = 1
 " アイコン表示
@@ -57,16 +52,10 @@ let g:webdevicons_enable_nerdtree = 1
 " NERDTreeのウィンドウしか開かれていないときは自動的にとじる
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&
  \ b:NERDTree.isTabTree()) | q | endif
-" <Leader> + n で NERDTreeをトグルする
-nnoremap <leader>n :NERDTreeToggle<cr>
 
 " ファジーファインダ
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-" Ctrl+pであいまい検索
-" ファジーファインダはfzfを使うのでこちらは削除
-"Plug 'ctrlpvim/ctrlp.vim'
 
 " より良い移動コマンド
 Plug 'easymotion/vim-easymotion'
@@ -74,11 +63,7 @@ Plug 'easymotion/vim-easymotion'
 " Vimコマンドの便利なマッピング
 Plug 'tpope/vim-unimpaired'
 
-" カラースキームのブラウザ
-" :SCROLLCOLOR で呼び出す
-Plug 'vim-scripts/ScrollColors'
-
-" 軽量なステータスライン拡張
+" ステータスライン拡張
 Plug 'vim-airline/vim-airline'
 " タブラインを有効化
 let g:airline#extensions#tabline#enabled = 1
@@ -88,25 +73,10 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Git統合
 Plug 'tpope/vim-fugitive'
 
-" Git統合
-Plug 'jreybert/vimagit'
-
 " Gitの追加/削除/変更行を行番号の左に表示する
 Plug 'airblade/vim-gitgutter'
-" 記号の色を変更する
-highlight GitGutterAdd ctermfg=green
-highlight GitGutterChange ctermfg=blue
-highlight GitGutterDelete ctermfg=red
 " 反映時間を短くする (デフォルトは4000ms)
 set updatetime=250
-" g]で前の変更箇所へ移動する
-nnoremap g[ :GitGutterPrevHunk<CR>
-" g[で次の変更箇所へ移動する
-nnoremap g] :GitGutterNextHunk<CR>
-" ghでdiffをハイライトする
-nnoremap gh :GitGutterLineHighlightsToggle<CR>
-" gpでカーソル行のdiffを表示する
-nnoremap gp :GitGutterPreviewHunk<CR>
 
 " 複数行をまとめてコメントアウト
 " gc コマンド
@@ -134,24 +104,10 @@ let g:winresizer_horiz_resize = 1
 Plug 'reireias/vim-cheatsheet'
 let g:cheatsheet#cheat_file = '~/.cheatsheet.md'
 
-" markdownプレビュー
-" :PrevimOpen
-Plug 'previm/previm'
-" WSLで動かす
-let g:previm_open_cmd = '/mnt/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe'
-let g:previm_wsl_mode = 1
-
 " markdownのテーブルを書きやすくする
 " TableModeToggleでon/offする
 Plug 'dhruvasagar/vim-table-mode'
 let g:table_mode_corner = '|'
-
-" ソースコード整形ツールPrettierを呼び出す
-" <Leader> + p または :Prettier で実行する
-" coc-prettierを使うのでこちらは無効
-"Plug 'prettier/vim-prettier', {
-"  \ 'do': 'npm install',
-"  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 " .editorconfigの設定でフォーマットする
 Plug 'editorconfig/editorconfig'
@@ -171,7 +127,7 @@ let g:closetag_filenames = '*.html,*.vue'
 
 " LSPクライアント
 " :CocInstall <extension>, :CocUnInstall <extension>
-" extension: coc-json, coc-vetur
+" :CocInstall coc-json, coc-vetur, coc-prettier, coc-eslint, coc-rls
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " VSCode風のカラースキーム
@@ -261,11 +217,6 @@ if !isdirectory(expand("$HOME/.vim/undodir"))
 endif
 set undodir=$HOME/.vim/undodir
 
-" 開いているファイルのディレクトリに移動する
-" タグジャンプとかで移動しない方が良い
-" :lcd (or :cd) %:h でファイルのディレクトリに移動 :pwdで確認
-"set autochdir
-
 " Tabによる自動補完に有効にする
 set wildmenu
 
@@ -280,10 +231,6 @@ set backspace=indent,eol,start
 
 " 閉じ括弧が入力されたとき、対応する開き括弧にわずかの間ジャンプする
 set showmatch
-
-" ヤンクした内容をクリップボードに入れる
-" :versionで+clipboardでコンパイルされていないので動かない
-"set clipboard=unnamedplus
 
 " 新しいウィンドウを下に開く
 set splitbelow
@@ -310,7 +257,6 @@ endif
 
 " 不可視文字を表示する
 set list
-"set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%
 
 " ダークモード
@@ -333,10 +279,6 @@ set laststatus=2
 set showcmd
 
 " ベルを鳴らさない
-" 昔の書き方
-" set visualbell t_vb=
-" set noerrorbells " エラーメッセージの表示時にビープを鳴らさない
-" 今の書き方
 set belloff=all
 
 " <= 見た目 }}}
@@ -349,11 +291,8 @@ command! Bd :bp | :sp | :bn | :bd
 " 保存時にsudo権限で無理やり保存
 cnoremap w!! w !sudo tee > /dev/null %<cr> :e! <cr>
 
-" ターミナルからノーマルに移動するコマンド googlechrome用 <C-x>
+" ターミナルからノーマルに移動するコマンド
 tnoremap <c-x> <c-w>N
-
-" ターミナルからノーマルに移動するコマンド <ESC>
-tnoremap <ESC> <c-w>N
 
 " 挿入モードからノーマルモードへホームポジションを離れずに戻る jk
 inoremap jk <ESC>
@@ -363,9 +302,7 @@ nnoremap <C-c> :BD<cr>
 
 " xやsではヤンクしない
 nnoremap x "_x
-"vnoremap x "_x
 nnoremap s "_s
-"vnoremap s "_s
 
 " => InsertモードでEmacsキーバインド {{{2
 
@@ -397,34 +334,33 @@ nnoremap <c-p> :bprev<cr>
 
 " => Leader ショートカット {{{1
 
-" <Leader> + w で Ctrl+w 入力にする for googlechrome
-nnoremap <leader>w <C-w>
+" Leaderキーをバックスラッシュからスペースに変更する
+let mapleader = "\<space>"
 
-" <Leader> + b でバッファ検索を開く (fzf)
+" <Leader> + n で NERDTreeをトグルする
+nnoremap <leader>n :NERDTreeToggle<cr>
+
+" <Leader> + b でバッファ検索を開く
 nnoremap <leader>b :Buffers<cr>
-
-" <Leader> + h で履歴検索を開く (fzf)
+" <Leader> + h で履歴検索を開く
 nnoremap <leader>h :History<cr>
-
-" <Leader> + l で開いているファイルの文字列検索を開く (fzf)
+" <Leader> + l で開いているファイルの文字列検索を開く
 nnoremap <leader>l :BLines<cr>
-
-nnoremap <leader>ff :Files<cr>
-nnoremap <leader>f :GFiles<cr>
-
-" <leader> + g で文字列検索を開く
+" <Leader> + g でGitリポジトリのファイルを探す
+nnoremap <leader>g :GFiles<cr>
+" <Leader> + f でディレクトリ配下のファイルを探す
+nnoremap <leader>f :Files<cr>
+" <Leader> + s で文字列検索を開く
 command! -bang -nargs=* Rg
 \ call fzf#vim#grep(
 \ 'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
 \ <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 3..'}, 'up:60%')
 \ : fzf#vim#with_preview({'options': '--exact --delimiter : --nth 3..'}),
 \ <bang>0)
-nnoremap <leader>g :Rg<CR>
-
-" <leader> + w でカーソル位置の単語をファイル検索する
+nnoremap <leader>s :Rg<CR>
+" <Leader> + w でカーソル位置の単語をファイル検索する
 nnoremap <leader>w vawy:Rg <c-r>"<cr>
-
-" <leader> + w で範囲選択した単語をファイル検索する
+" <Leader> + w で範囲選択した単語をファイル検索する
 xnoremap <leader>w y:Rg <c-r>"<cr>
 
 " <leader> + p でprettier
@@ -465,14 +401,10 @@ set wrapscan
 
 " <= 移動・検索 }}}
 
-" => ファイルタイプ別設定 {{{1
-
-" <= ファイルタイプ別設定 }}}
-
-" => その他・hack {{{1
+" => その他 {{{1
 
 " ターミナルウィンドをアクティブバッファリストから隠す (for ]b and [b)
-"autocmd TerminalOpen * if bufwinnr('') > 0 | setlocal nobuflisted | endif
+autocmd TerminalOpen * if bufwinnr('') > 0 | setlocal nobuflisted | endif
 
 " コードを折りたたむ zo:open, zc:close zR:all open, zM: all close
 set foldmethod=indent
